@@ -11,6 +11,8 @@ module.exports = {
 			teal: "#54BAB9",
 			darkGrey: "#444444",
 			lightGrey: "#ACB3C0",
+			red: "#CD211D",
+			green: "#1AB45D",
 		},
 	},
 	plugins: [],
