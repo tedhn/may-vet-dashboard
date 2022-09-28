@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Banner, Labels } from "@/Components";
 import Listitem from "@/Components/listitem/Listitem";
 import Form from "@/Components/form/Form";
@@ -51,9 +51,33 @@ const Dashboard = () => {
 		},
 	]);
 
+	const [isShowAddForm, setIsShowAddForm] = useState(false);
+	const [isShowUpdateForm, setIsShowUpdateForm] = useState(false);
+
+	const closeForm = () => {
+		setIsShowAddForm(false);
+		setIsShowUpdateForm(false);
+	};
+
+	const showAddForm = () => {
+		setIsShowAddForm(true);
+	};
+
+	const showUpdateForm = () => {
+		setIsShowUpdateForm(true);
+	};
+
+	const addPatient = (newPatient: any) => {
+		setPatientlist([...patients, newPatient]);
+	};
+
+	useEffect(() => {
+		console.log(patients);
+	}, [patients]);
+	
 	return (
 		<div className='px-4 m-4 text-black bg-white'>
-			<Banner />
+			<Banner showForm={showAddForm} />
 
 			<div className='font-medium text-teal border-y-2 border-lightGrey'>
 				<Listitem
@@ -87,7 +111,29 @@ const Dashboard = () => {
 				})}
 			</div>
 
-			<Form/>
+			{isShowAddForm && (
+				<div className='absolute top-0 left-0 bg-darkGrey/[0.5] w-screen h-screen'>
+					<Form
+						title='Add new Patient'
+						subtitle='Enter new patient information below'
+						buttonPrimary='Save'
+						closeForm={closeForm}
+						updateList={addPatient}
+					/>
+				</div>
+			)}
+
+			{isShowUpdateForm && (
+				<div className='absolute top-0 left-0 bg-darkGrey/[0.5] w-screen h-screen'>
+					<Form
+						title='Add new Patient'
+						subtitle='Enter new patient information below'
+						buttonPrimary='Save'
+						closeForm={closeForm}
+						updateList={addPatient}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

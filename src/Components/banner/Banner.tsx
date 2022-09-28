@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import SearchImage from "@/resources/search.png";
 import AddImage from "@/resources/add.png";
@@ -6,15 +6,16 @@ import DropDown from "../dropdown/Dropdown";
 
 const options = ["a", "b", "c", "d", "e"];
 
-const Banner = () => {
+interface PropTypes {
+	showForm: () => void;
+}
+
+const Banner: FC<PropTypes> = ({showForm}) => {
 	const [filter, setFilter] = useState({ status: "", breed: "", row: "" });
 
-	useEffect(() => {
-		console.log(filter)
-	},[filter])
 
 	return (
-		<div className='flex items-end justify-between pt-4 '>
+		<div className='flex items-end justify-between pt-4'>
 			<div className='w-72'>
 				<div className='text-xl font-semibold text-teal'>Patient List</div>
 				<div className='relative w-full px-2 py-1 mt-4 text-sm border-2 rounded-lg border-lightGrey text-lightGrey'>
@@ -34,20 +35,22 @@ const Banner = () => {
 						dropDownName='status'
 						updateFormData={setFilter}
 						formData={filter}
-						label={filter.status !== "" ? filter.status :'Status All'}
+						label={filter.status !== "" ? filter.status : "Status All"}
 						options={options}
 					/>
 					<DropDown
 						dropDownName='breed'
 						updateFormData={setFilter}
 						formData={filter}
-						label={filter.breed !== "" ? filter.breed :'Breed All'}
+						label={filter.breed !== "" ? filter.breed : "Breed All"}
 						options={options}
 					/>
 				</div>
 			</div>
 			<div className='w-48 '>
-				<div className='flex items-center justify-center w-full gap-2 px-4 py-2 text-sm text-center text-white rounded-lg bg-teal'>
+				<div
+					onClick={showForm}
+					className='flex items-center justify-center w-full gap-2 px-4 py-2 text-sm text-center text-white rounded-lg bg-teal'>
 					<img src={AddImage} alt='Add-image' className='w-3 h-3' />
 					<div>Add new Patient</div>
 				</div>
@@ -57,7 +60,7 @@ const Banner = () => {
 						dropDownName='row'
 						updateFormData={setFilter}
 						formData={filter}
-						label={filter.row !== "" ? filter.row : '10'}
+						label={filter.row !== "" ? filter.row : "10"}
 						options={options}
 					/>
 				</div>

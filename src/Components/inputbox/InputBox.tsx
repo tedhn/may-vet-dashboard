@@ -14,22 +14,26 @@ const InputBox: FC<PropTypes> = ({
 	formData,
 }) => {
 	return (
-		<div className='flex items-center'>
+		<div className='flex items-center '>
 			<input
-				className='w-full px-2 py-1 text-sm'
+				className='w-full px-2 py-1 text-sm border-2 rounded-lg border-lightGrey text-lightGrey'
 				placeholder=''
 				type={type}
 				name={label.split("|")[0]}
 				id={label}
-				onChange={(e) =>{
-					console.log(e.target)
-					updateForm({ ...formData, [e.target.name]: label.split("|")[0] !== "gender" ? e.target.value : label.split("|")[1] })
-				}
+				onChange={(e) =>
+					updateForm({
+						...formData,
+						[e.target.name]:
+							label.split("|")[0] !== "gender"
+								? e.target.value
+								: label.split("|")[1],
+					})
 				}
 			/>
 
 			{type === "radio" ? (
-				<label className='ml-2' htmlFor={label}>
+				<label className='ml-2 cursor-pointer' htmlFor={label}>
 					{label.split("|")[1]}
 				</label>
 			) : null}

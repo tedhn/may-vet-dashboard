@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import InputBox from "../inputbox/InputBox";
 import DropDown from "../dropdown/Dropdown";
 
@@ -17,7 +17,21 @@ interface formDataType {
 	township: string;
 }
 
-const Form = () => {
+interface PropTypes {
+	title: string;
+	subtitle: string;
+	buttonPrimary: string;
+	closeForm: () => void;
+	updateList: (newPatient: any) => void;
+}
+
+const Form: FC<PropTypes> = ({
+	title,
+	subtitle,
+	buttonPrimary,
+	closeForm,
+	updateList,
+}) => {
 	const [formData, setFormData] = useState<formDataType>({
 		petName: "",
 		status: "",
@@ -31,14 +45,10 @@ const Form = () => {
 		township: "",
 	});
 
-	useEffect(() => {
-		console.log(formData);
-	}, [formData]);
-
 	return (
-		<div className='max-w-2xl px-2 py-8 text-center bg-darkGrey'>
-			<div>title</div>
-			<div>subtitle</div>
+		<div className='relative w-5/12 px-2 py-8 text-center -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2'>
+			<div className='text-lg font-medium text-teal'>{title}</div>
+			<div className='text-sm '>{subtitle}</div>
 
 			<form className='grid grid-cols-2 my-8'>
 				<div className='w-3/4 mx-auto my-2 text-start'>
@@ -157,9 +167,17 @@ const Form = () => {
 				</div>
 			</form>
 
-			<div>
-				<button type='submit'>BUTTON Primary</button>
-				<button>Button Secondary</button>
+			<div className='flex items-center justify-center gap-4'>
+				<button
+					className='px-6 py-2 text-white bg-teal w-44'
+					onClick={() => updateList(formData)}>
+					{buttonPrimary}
+				</button>
+				<button
+					onClick={closeForm}
+					className='px-6 py-1 border-2 rounded-lg w-44 text-lightGrey '>
+					Cancel
+				</button>
 			</div>
 		</div>
 	);

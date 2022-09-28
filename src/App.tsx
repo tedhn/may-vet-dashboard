@@ -6,7 +6,8 @@ import Dashboard from "@/pages/Dashboard";
 function App() {
 	return (
 		<div className=' text-darkGrey'>
-			<Navbar userImage={UserImage} /> <Dashboard />
+			<Navbar userImage={UserImage} /> 
+			<Dashboard />
 		</div>
 	);
 }
