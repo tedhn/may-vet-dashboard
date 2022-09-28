@@ -3,12 +3,21 @@ import React, { useEffect, useRef, useState } from "react";
 interface propsTypes {
 	label: string;
 	options: string[];
-	setUpdate?: any;
+	updateFormData: any;
+	formData: any;
+  dropDownName : string;
 }
 
-const DropDown: React.FC<propsTypes> = ({ label, options, setUpdate }) => {
+const DropDown: React.FC<propsTypes> = ({
+	label,
+	options,
+	updateFormData,
+	formData,
+  dropDownName,
+}) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [listening, setListening] = useState(false);
+  
 
 	const menuRef = useRef<any>();
 
@@ -64,7 +73,16 @@ const DropDown: React.FC<propsTypes> = ({ label, options, setUpdate }) => {
 						aria-labelledby='dropdownDefault'>
 						{options.map((option, index) => {
 							return (
-								<li key={index} className='block px-4 py-2 hover:bg-lightGrey '>
+								<li
+									key={index}
+									className='block px-4 py-2 hover:bg-lightGrey'
+									onClick={() => {
+										updateFormData({
+											...formData,
+											[dropDownName]: option,
+										});
+                    setIsOpen(false);
+                  }}>
 									{option}
 								</li>
 							);

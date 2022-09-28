@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Banner, Labels } from "@/Components";
 import Listitem from "@/Components/listitem/Listitem";
+import Form from "@/Components/form/Form";
 
 const Dashboard = () => {
 	const [patients, setPatientlist] = useState([
@@ -85,6 +86,8 @@ const Dashboard = () => {
 					);
 				})}
 			</div>
+
+			<Form/>
 		</div>
 	);
 };
