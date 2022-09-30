@@ -2,16 +2,26 @@ import React, { FC, useEffect, useState } from "react";
 
 import SearchImage from "@/resources/search.png";
 import AddImage from "@/resources/add.png";
-import {DropDown} from "@/Components";
+import { DropDown } from "@/Components";
 import { BREED_OPTIONS, ROW_OPTIONS, STATUS_OPTIONS } from "@/constants";
 
 interface PropTypes {
 	showForm: () => void;
+	filter: {
+		status: string;
+		breed: string;
+		row: string;
+	};
+	setFilter: React.Dispatch<
+		React.SetStateAction<{
+			status: string;
+			breed: string;
+			row: string;
+		}>
+	>;
 }
 
-const Banner: FC<PropTypes> = ({ showForm }) => {
-	const [filter, setFilter] = useState({ status: "", breed: "", row: "" });
-
+const Banner: FC<PropTypes> = ({ showForm, filter, setFilter }) => {
 	return (
 		<div className='flex items-end justify-between pt-4'>
 			<div className='w-72'>
@@ -33,14 +43,14 @@ const Banner: FC<PropTypes> = ({ showForm }) => {
 						dropDownName='status'
 						updateFormData={setFilter}
 						formData={filter}
-						label={filter.status !== "" ? filter.status : "Status All"}
+						label={filter.status}
 						options={STATUS_OPTIONS.map((status) => status.name)}
 					/>
 					<DropDown
 						dropDownName='breed'
 						updateFormData={setFilter}
 						formData={filter}
-						label={filter.breed !== "" ? filter.breed : "Breed All"}
+						label={filter.breed}
 						options={BREED_OPTIONS}
 					/>
 				</div>

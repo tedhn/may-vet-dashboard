@@ -2,6 +2,7 @@ import Allergy from '@/resources/allergy.png'
 import PickyEater from '@/resources/picky_eater.png'
 
 export const BREED_OPTIONS = [
+	"Breed All",
 	"Bulldogs",
 	"Golden Retrievers",
 	"Corgi",
@@ -9,7 +10,11 @@ export const BREED_OPTIONS = [
 	"Beagles",
 ];
 
-export const STATUS_OPTIONS = [{name : "Allergy" , icon:  Allergy}, {name : "Picky Eater" , icon : PickyEater}];
+export const STATUS_OPTIONS = [
+	{ name: "Status All" },
+	{ name: "Allergy", icon: Allergy },
+	{ name: "Picky Eater", icon: PickyEater },
+];
 
 export const ROW_OPTIONS = ["10", "20", "30", "40", "50"];
 

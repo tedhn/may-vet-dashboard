@@ -15,7 +15,7 @@ const Dashboard = () => {
 			petName: "Milo",
 			status: "Picky Eater",
 			pawrent: "The Nu San",
-			breed: "Beagle",
+			breed: "Bulldogs",
 			gender: "Male",
 			dob: "1-5-2021",
 			phone: "09797122499",
@@ -34,10 +34,10 @@ const Dashboard = () => {
 		},
 		{
 			id: "RyWrp",
-			petName: "Milo",
+			petName: "Poodle",
 			status: "Allergy",
 			pawrent: "The Nu San",
-			breed: "Beagle",
+			breed: "Poodles",
 			gender: "Male",
 			dob: "1-5-2021",
 			phone: "09797122499",
@@ -48,14 +48,26 @@ const Dashboard = () => {
 			petName: "Milo",
 			status: "Allergy",
 			pawrent: "The Nu San",
-			breed: "Beagle",
+			breed: "Corgi",
 			gender: "Male",
 			dob: "1-5-2021",
 			phone: "09797122499",
 			address: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 		},
 	]);
-
+	const [filteredPatientList, setFilteredPatientList] = useState([
+		{
+			id: "",
+			petName: "",
+			status: "",
+			pawrent: "",
+			breed: "",
+			gender: "",
+			dob: "",
+			phone: "",
+			address: "",
+		},
+	]);
 	const [isShow, setIsShow] = useState({
 		addForm: false,
 		updateForm: false,
@@ -67,6 +79,14 @@ const Dashboard = () => {
 	const [anchorPoints, setAnchorPoints] = useState({ x: 0, y: 0 });
 
 	const [selectedPatient, setSelectedPatient] = useState("");
+
+	const [filter, setFilter] = useState({
+		status: "Status All",
+		breed: "Breed All",
+		row: "10",
+	});
+
+	const [isFiltered, setIsFiltered] = useState({ status: false, breed: false });
 
 	const closeForm = () => {
 		setIsShow({
@@ -137,9 +157,36 @@ const Dashboard = () => {
 		}
 	}, [notif]);
 
+	useEffect(() => {
+		let newIsFiltered = { ...isFiltered };
+
+		if (filter.status !== "Status All") {
+			const newFilteredList = patients.filter(
+				(patient) => patient.status === filter.status
+			);
+
+			newIsFiltered = { ...newIsFiltered, status: true };
+			setFilteredPatientList(newFilteredList);
+		} else {
+			newIsFiltered = { ...newIsFiltered, status: false };
+		}
+
+		if (filter.breed !== "Breed All") {
+			const newFilteredList = patients.filter(
+				(patient) => patient.breed === filter.breed
+			);
+			newIsFiltered = { ...newIsFiltered, breed: true };
+			setFilteredPatientList(newFilteredList);
+		} else {
+			newIsFiltered = { ...newIsFiltered, breed: false };
+		}
+
+		setIsFiltered(newIsFiltered);
+	}, [filter]);
+
 	return (
 		<div className='px-4 m-4 text-black bg-white'>
-			<Banner showForm={showAddForm} />
+			<Banner showForm={showAddForm} filter={filter} setFilter={setFilter} />
 
 			<div className='font-medium text-teal border-y-2 border-lightGrey'>
 				<Listitem
@@ -156,21 +203,37 @@ const Dashboard = () => {
 				/>
 			</div>
 			<div className='py-4'>
-				{patients.map((patient) => (
-					<Listitem
-						id={patient.id}
-						key={patient.id}
-						petName={patient.petName}
-						status={patient.status}
-						pawrent={patient.pawrent}
-						breed={patient.breed}
-						gender={patient.gender}
-						dob={patient.dob}
-						phone={patient.phone}
-						address={patient.address}
-						showContextMenu={toggleContextMenu}
-					/>
-				))}
+				{isFiltered.breed || isFiltered.status
+					? filteredPatientList.map((patient) => (
+							<Listitem
+								id={patient.id}
+								key={patient.id}
+								petName={patient.petName}
+								status={patient.status}
+								pawrent={patient.pawrent}
+								breed={patient.breed}
+								gender={patient.gender}
+								dob={patient.dob}
+								phone={patient.phone}
+								address={patient.address}
+								showContextMenu={toggleContextMenu}
+							/>
+					  ))
+					: patients.map((patient) => (
+							<Listitem
+								id={patient.id}
+								key={patient.id}
+								petName={patient.petName}
+								status={patient.status}
+								pawrent={patient.pawrent}
+								breed={patient.breed}
+								gender={patient.gender}
+								dob={patient.dob}
+								phone={patient.phone}
+								address={patient.address}
+								showContextMenu={toggleContextMenu}
+							/>
+					  ))}
 			</div>
 
 			{isShow.addForm && (
