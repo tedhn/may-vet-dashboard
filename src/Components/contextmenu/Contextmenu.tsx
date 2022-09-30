@@ -20,16 +20,16 @@ const Contextmenu: FC<PropTypes> = ({
 }) => {
 	return (
 		<div
-			className='shadow-lg bg-white  py-2 absolute w-44 rounded-lg'
+			className='absolute py-2 bg-white rounded-lg shadow-lg w-44'
 			style={{ top: y, right: x }}>
 			<div
-				className='flex justify-start items-center gap-2 hover:bg-lightGrey cursor-pointer px-4'
+				className='flex items-center justify-start gap-2 px-4 cursor-pointer hover:bg-lightGrey'
 				onClick={() => showUpdateForm(id)}>
 				<img src={Edit} alt='edit-image' />
 				<div>Edit</div>
 			</div>
 			<div
-				className='flex justify-start items-center gap-2 hover:bg-lightGrey cursor-pointer px-4'
+				className='flex items-center justify-start gap-2 px-4 cursor-pointer hover:bg-lightGrey'
 				onClick={showConfirmBox}>
 				<img src={Delete} alt='delete-image' />
 				<div>Delete</div>

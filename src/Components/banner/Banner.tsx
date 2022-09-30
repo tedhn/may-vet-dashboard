@@ -44,21 +44,24 @@ const Banner: FC<PropTypes> = ({ showForm, filter, setFilter }) => {
 						updateFormData={setFilter}
 						formData={filter}
 						label={filter.status}
-						options={STATUS_OPTIONS.map((status) => status.name)}
+						options={[
+							"Status All",
+							...STATUS_OPTIONS.map((status) => status.name),
+						]}
 					/>
 					<DropDown
 						dropDownName='breed'
 						updateFormData={setFilter}
 						formData={filter}
 						label={filter.breed}
-						options={BREED_OPTIONS}
+						options={["Breed All", ...BREED_OPTIONS]}
 					/>
 				</div>
 			</div>
 			<div className='w-48 '>
 				<div
 					onClick={showForm}
-					className='flex items-center justify-center w-full gap-2 px-4 py-2 text-sm text-center text-white rounded-lg bg-teal cursor-pointer'>
+					className='flex items-center justify-center w-full gap-2 px-4 py-2 text-sm text-center text-white rounded-lg cursor-pointer bg-teal'>
 					<img src={AddImage} alt='Add-image' className='w-3 h-3' />
 					<div>Add new Patient</div>
 				</div>

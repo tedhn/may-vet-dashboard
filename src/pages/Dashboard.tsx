@@ -279,8 +279,8 @@ const Dashboard = () => {
 
 			{isShow.confirmBox && (
 				<div className='absolute top-0 left-0 bg-darkGrey/[0.5]	 w-screen h-screen'>
-					<div className='relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-4/12 px-4 py-2'>
-						<div className='text-teal text-lg'>Confirmation</div>
+					<div className='relative w-4/12 px-4 py-2 -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2'>
+						<div className='text-lg text-teal'>Confirmation</div>
 
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -288,7 +288,7 @@ const Dashboard = () => {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='w-6 h-6 absolute top-4 right-4 cursor-pointer'
+							className='absolute w-6 h-6 cursor-pointer top-4 right-4'
 							onClick={closeForm}>
 							<path
 								strokeLinecap='round'
@@ -301,14 +301,14 @@ const Dashboard = () => {
 							Are you sure you want to delete this patient?
 						</div>
 
-						<div className='flex justify-center items-center gap-4 pb-2'>
+						<div className='flex items-center justify-center gap-4 pb-2'>
 							<button
-								className='bg-red px-6 py-2 text-white border-2 border-red rounded-md'
+								className='px-6 py-2 text-white border-2 rounded-md bg-red border-red'
 								onClick={() => updateList({ id: selectedPatient }, "Delete")}>
 								Delete
 							</button>
 							<button
-								className='px-6 py-2 border-2 border-lightGrey rounded-md'
+								className='px-6 py-2 border-2 rounded-md border-lightGrey'
 								onClick={closeForm}>
 								Cancel
 							</button>

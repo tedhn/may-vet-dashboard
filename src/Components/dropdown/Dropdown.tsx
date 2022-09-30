@@ -66,7 +66,7 @@ const DropDown: React.FC<propsTypes> = ({
 			{isOpen && (
 				<div
 					id='dropdown'
-					className='absolute z-10 divide-y rounded shadow top-full bg-grey divide-lightGrey '>
+					className='absolute z-10 divide-y rounded shadow top-full bg-grey divide-lightGrey'>
 					<ul
 						className='py-1 text-sm bg-white'
 						aria-labelledby='dropdownDefault'>
@@ -74,7 +74,7 @@ const DropDown: React.FC<propsTypes> = ({
 							return (
 								<li
 									key={index}
-									className='block px-4 py-2 hover:bg-lightGrey cursor-pointer'
+									className='block px-4 py-2 cursor-pointer hover:bg-lightGrey'
 									onClick={() => {
 										updateFormData({
 											...formData,
