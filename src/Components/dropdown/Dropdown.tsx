@@ -5,7 +5,7 @@ interface propsTypes {
 	options: string[];
 	updateFormData: any;
 	formData: any;
-  dropDownName : string;
+	dropDownName: string;
 }
 
 const DropDown: React.FC<propsTypes> = ({
@@ -13,11 +13,10 @@ const DropDown: React.FC<propsTypes> = ({
 	options,
 	updateFormData,
 	formData,
-  dropDownName,
+	dropDownName,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [listening, setListening] = useState(false);
-  
 
 	const menuRef = useRef<any>();
 
@@ -75,15 +74,19 @@ const DropDown: React.FC<propsTypes> = ({
 							return (
 								<li
 									key={index}
-									className='block px-4 py-2 hover:bg-lightGrey'
+									className='block px-4 py-2 hover:bg-lightGrey cursor-pointer'
 									onClick={() => {
 										updateFormData({
 											...formData,
 											[dropDownName]: option,
 										});
-                    setIsOpen(false);
-                  }}>
-									{option}
+										setIsOpen(false);
+									}}>
+									{option.split(".")[1] === "png" ? (
+										<img src={option} />
+									) : (
+										option
+									)}
 								</li>
 							);
 						})}

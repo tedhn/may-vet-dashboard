@@ -3,16 +3,14 @@ import React, { FC, useEffect, useState } from "react";
 import SearchImage from "@/resources/search.png";
 import AddImage from "@/resources/add.png";
 import DropDown from "../dropdown/Dropdown";
-
-const options = ["a", "b", "c", "d", "e"];
+import { BREED_OPTIONS, ROW_OPTIONS, STATUS_OPTIONS } from "@/constants";
 
 interface PropTypes {
 	showForm: () => void;
 }
 
-const Banner: FC<PropTypes> = ({showForm}) => {
+const Banner: FC<PropTypes> = ({ showForm }) => {
 	const [filter, setFilter] = useState({ status: "", breed: "", row: "" });
-
 
 	return (
 		<div className='flex items-end justify-between pt-4'>
@@ -36,14 +34,14 @@ const Banner: FC<PropTypes> = ({showForm}) => {
 						updateFormData={setFilter}
 						formData={filter}
 						label={filter.status !== "" ? filter.status : "Status All"}
-						options={options}
+						options={STATUS_OPTIONS}
 					/>
 					<DropDown
 						dropDownName='breed'
 						updateFormData={setFilter}
 						formData={filter}
 						label={filter.breed !== "" ? filter.breed : "Breed All"}
-						options={options}
+						options={BREED_OPTIONS}
 					/>
 				</div>
 			</div>
@@ -61,7 +59,7 @@ const Banner: FC<PropTypes> = ({showForm}) => {
 						updateFormData={setFilter}
 						formData={filter}
 						label={filter.row !== "" ? filter.row : "10"}
-						options={options}
+						options={ROW_OPTIONS}
 					/>
 				</div>
 			</div>

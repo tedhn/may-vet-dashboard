@@ -1,28 +1,21 @@
 import React, { FC, useEffect, useState } from "react";
 import InputBox from "../inputbox/InputBox";
 import DropDown from "../dropdown/Dropdown";
-
-const options = ["a", "b", "c", "d", "e"];
-
-interface formDataType {
-	petName: string;
-	status: string;
-	pawrent: string;
-	breed: string;
-	gender: string;
-	dob: string;
-	phone: string;
-	address: string;
-	city: string;
-	township: string;
-}
+import {
+	BREED_OPTIONS,
+	CITY_OPTIONS,
+	STATUS_OPTIONS,
+	TOWNSHIPS_OPTIONS,
+} from "@/constants";
+import { formDataType } from "@/types";
 
 interface PropTypes {
 	title: string;
 	subtitle: string;
 	buttonPrimary: string;
 	closeForm: () => void;
-	updateList: (newPatient: any) => void;
+	updateList: (newPatient: any, type: string) => void;
+	patient?: any;
 }
 
 const Form: FC<PropTypes> = ({
@@ -31,8 +24,7 @@ const Form: FC<PropTypes> = ({
 	buttonPrimary,
 	closeForm,
 	updateList,
-}) => {
-	const [formData, setFormData] = useState<formDataType>({
+	patient = {
 		petName: "",
 		status: "",
 		pawrent: "",
@@ -41,9 +33,9 @@ const Form: FC<PropTypes> = ({
 		dob: "",
 		phone: "",
 		address: "",
-		city: "",
-		township: "",
-	});
+	},
+}) => {
+	const [formData, setFormData] = useState<formDataType>(patient);
 
 	return (
 		<div className='relative w-5/12 px-2 py-8 text-center -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2'>
@@ -54,6 +46,7 @@ const Form: FC<PropTypes> = ({
 				<div className='w-3/4 mx-auto my-2 text-start'>
 					<div>Pet Name</div>
 					<InputBox
+						data={patient.petName}
 						formData={formData}
 						updateForm={setFormData}
 						type='text'
@@ -71,12 +64,13 @@ const Form: FC<PropTypes> = ({
 								? formData.status
 								: "Please choose a status"
 						}
-						options={options}
+						options={STATUS_OPTIONS}
 					/>
 				</div>
 				<div className='w-3/4 mx-auto my-2 text-start'>
 					<div>Pawrent</div>
 					<InputBox
+						data={patient.pawrent}
 						formData={formData}
 						updateForm={setFormData}
 						type='text'
@@ -92,19 +86,21 @@ const Form: FC<PropTypes> = ({
 						label={
 							formData.breed !== "" ? formData.breed : "Please choose a breed"
 						}
-						options={options}
+						options={BREED_OPTIONS}
 					/>
 				</div>
 				<div className='w-3/4 mx-auto my-2 text-start'>
 					<div>Gender</div>
 					<div className='flex justify-around'>
 						<InputBox
+							data={patient.gender}
 							formData={formData}
 							updateForm={setFormData}
 							type='radio'
 							label='gender|Male'
 						/>
 						<InputBox
+							data={patient.gender}
 							formData={formData}
 							updateForm={setFormData}
 							type='radio'
@@ -115,6 +111,7 @@ const Form: FC<PropTypes> = ({
 				<div className='w-3/4 mx-auto my-2 text-start'>
 					<div>Date of Birth</div>
 					<InputBox
+						data={patient.dob}
 						formData={formData}
 						updateForm={setFormData}
 						type='text'
@@ -124,6 +121,7 @@ const Form: FC<PropTypes> = ({
 				<div className='w-3/4 mx-auto my-2 text-start'>
 					<div>Contact Phone No.</div>
 					<InputBox
+						data={patient.phone}
 						formData={formData}
 						updateForm={setFormData}
 						type='text'
@@ -133,6 +131,7 @@ const Form: FC<PropTypes> = ({
 				<div className='w-3/4 mx-auto my-2 text-start'>
 					<div>Address</div>
 					<InputBox
+						data={patient.address}
 						formData={formData}
 						updateForm={setFormData}
 						type='text'
@@ -146,9 +145,11 @@ const Form: FC<PropTypes> = ({
 						formData={formData}
 						dropDownName='city'
 						label={
-							formData.city !== "" ? formData.city : "Please choose a city"
+							formData.city !== undefined
+								? formData.city
+								: "Please choose a city"
 						}
-						options={options}
+						options={CITY_OPTIONS}
 					/>
 				</div>
 				<div className='w-3/4 mx-auto my-2 text-start'>
@@ -158,19 +159,30 @@ const Form: FC<PropTypes> = ({
 						formData={formData}
 						dropDownName='township'
 						label={
-							formData.township !== ""
+							formData.township !== undefined
 								? formData.township
 								: "Please choose a township"
 						}
-						options={options}
+						options={TOWNSHIPS_OPTIONS}
 					/>
 				</div>
 			</form>
 
 			<div className='flex items-center justify-center gap-4'>
 				<button
-					className='px-6 py-2 text-white bg-teal w-44'
-					onClick={() => updateList(formData)}>
+					className='px-6 py-2 text-white  w-44'
+					style={
+						buttonPrimary === "Save"
+							? { backgroundColor: "#54BAB9", color: "#ffffff" }
+							: { backgroundColor: "#EDC339", color: "#000000" }
+					}
+					onClick={() => {
+						if (buttonPrimary === "Save") {
+							updateList(formData, "Save");
+						} else {
+							updateList(formData, "Update");
+						}
+					}}>
 					{buttonPrimary}
 				</button>
 				<button
