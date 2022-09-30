@@ -25,7 +25,7 @@ const InputBox: FC<PropTypes> = ({
 				type={type}
 				name={label.split("|")[0]}
 				id={label}
-				value={state.length !== 0 ? state : data}
+				value={state.length !== 0 ? state : ""}
 				onChange={(e) => {
 					setState(e.target.value);
 					updateForm({
