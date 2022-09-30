@@ -1,16 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Banner, Labels } from "@/Components";
-import Listitem from "@/Components/listitem/Listitem";
-import Form from "@/Components/form/Form";
-import Contextmenu from "@/Components/contextmenu/Contextmenu";
-import Notification from "@/Components/notification/Notification";
+import React, { useEffect, useState } from "react";
+import {
+	Banner,
+	Listitem,
+	Form,
+	Notification,
+	Contextmenu,
+} from "@/Components";
+import { generateString } from "@/constants";
 
 const Dashboard = () => {
 	const [patients, setPatientlist] = useState([
 		{
-			id: "0",
+			id: "gjZBo",
 			petName: "Milo",
-			status: "Status",
+			status: "Picky Eater",
 			pawrent: "The Nu San",
 			breed: "Beagle",
 			gender: "Male",
@@ -19,9 +22,9 @@ const Dashboard = () => {
 			address: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 		},
 		{
-			id: "1",
+			id: "wIThi",
 			petName: "Milo",
-			status: "Status",
+			status: "Picky Eater",
 			pawrent: "The Nu San",
 			breed: "Beagle",
 			gender: "Male",
@@ -30,9 +33,9 @@ const Dashboard = () => {
 			address: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 		},
 		{
-			id: "2",
+			id: "RyWrp",
 			petName: "Milo",
-			status: "Status",
+			status: "Allergy",
 			pawrent: "The Nu San",
 			breed: "Beagle",
 			gender: "Male",
@@ -41,9 +44,9 @@ const Dashboard = () => {
 			address: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 		},
 		{
-			id: "3",
+			id: "IdzcK",
 			petName: "Milo",
-			status: "Status",
+			status: "Allergy",
 			pawrent: "The Nu San",
 			breed: "Beagle",
 			gender: "Male",
@@ -53,39 +56,51 @@ const Dashboard = () => {
 		},
 	]);
 
-	const [isShowAddForm, setIsShowAddForm] = useState(false);
-	const [isShowUpdateForm, setIsShowUpdateForm] = useState(false);
-	const [isShowContextMenu, setIsShowContextMenu] = useState(false);
-	const [notif, setNotif] = useState({ isShow: true, text: "aaaaaaaaaa" });
+	const [isShow, setIsShow] = useState({
+		addForm: false,
+		updateForm: false,
+		contextMenu: false,
+		confirmBox: false,
+	});
+	const [notif, setNotif] = useState({ isShow: false, text: "" });
 
 	const [anchorPoints, setAnchorPoints] = useState({ x: 0, y: 0 });
 
 	const [selectedPatient, setSelectedPatient] = useState("");
 
 	const closeForm = () => {
-		setIsShowAddForm(false);
-		setIsShowUpdateForm(false);
+		setIsShow({
+			addForm: false,
+			updateForm: false,
+			contextMenu: false,
+			confirmBox: false,
+		});
 	};
 
 	const showAddForm = () => {
-		setIsShowAddForm(true);	
+		setIsShow({ ...isShow, addForm: true });
 	};
 
 	const showUpdateForm = (id: string) => {
 		setSelectedPatient(id);
-		setIsShowUpdateForm(true);
+		setIsShow({ ...isShow, updateForm: true });
+	};
+
+	const showNotif = (operation: string) => {
+		setNotif({ isShow: true, text: "Patient is Successfully " + operation });
+	};
+
+	const showConfirmBox = () => {
+		setIsShow({ ...isShow, confirmBox: true });
 	};
 
 	const updateList = (newPatientData: any, type: string) => {
 		if (type === "Update") {
-			const newPatientList = patients;
+			const newPatientList = [...patients];
 
 			const index = newPatientList.findIndex(
 				(patient) => patient.id === newPatientData.id
 			);
-
-			console.log(newPatientData);
-			console.log(index);
 
 			newPatientList.splice(index, 1, newPatientData);
 
@@ -97,15 +112,12 @@ const Dashboard = () => {
 
 			setPatientlist(newPatientList);
 		} else {
-			setPatientlist([...patients, newPatientData]);
+			const id = generateString(5);
+			setPatientlist([...patients, { id, ...newPatientData }]);
 		}
 
 		showNotif(type + "d!");
 		closeForm();
-	};
-
-	const showNotif = (operation: string) => {
-		setNotif({ isShow: true, text: "Patient is Successfully " + operation });
 	};
 
 	const toggleContextMenu = (
@@ -114,33 +126,20 @@ const Dashboard = () => {
 	) => {
 		setSelectedPatient(id);
 		setAnchorPoints({ x: window.screen.width - e.pageX, y: e.pageY });
-		setIsShowContextMenu(!isShowContextMenu);
+		setIsShow({ ...isShow, contextMenu: !isShow.contextMenu });
 	};
 
-	// useEffect(() => {
-	// 	console.log(patients);
-	// 	console.log(isShowUpdateForm);
-	// }, [patients, isShowUpdateForm]);
-
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		setNotif({ isShow: false, text: "" });
-	// 	}, 3000);
-	// }, [notif]);
+	useEffect(() => {
+		if (notif.isShow) {
+			setTimeout(() => {
+				setNotif({ isShow: false, text: "" });
+			}, 3000);
+		}
+	}, [notif]);
 
 	return (
 		<div className='px-4 m-4 text-black bg-white'>
 			<Banner showForm={showAddForm} />
-
-			{isShowContextMenu && (
-				<Contextmenu
-					x={anchorPoints.x}
-					y={anchorPoints.y}
-					showUpdateForm={showUpdateForm}
-					updateList={updateList}
-					id={selectedPatient}
-				/>
-			)}
 
 			<div className='font-medium text-teal border-y-2 border-lightGrey'>
 				<Listitem
@@ -153,31 +152,28 @@ const Dashboard = () => {
 					dob='Date of Birth'
 					phone='Contact Phone No.'
 					address='Address'
+					label={true}
 				/>
 			</div>
 			<div className='py-4'>
-				{patients.map((patient, index) => {
-					return (
-						<div>
-							<Listitem
-								key={patient.id}
-								id={patient.id}
-								petName={patient.petName}
-								status={patient.status}
-								pawrent={patient.pawrent}
-								breed={patient.breed}
-								gender={patient.gender}
-								dob={patient.dob}
-								phone={patient.phone}
-								address={patient.address}
-								showContextMenu={toggleContextMenu}
-							/>
-						</div>
-					);
-				})}
+				{patients.map((patient) => (
+					<Listitem
+						id={patient.id}
+						key={patient.id}
+						petName={patient.petName}
+						status={patient.status}
+						pawrent={patient.pawrent}
+						breed={patient.breed}
+						gender={patient.gender}
+						dob={patient.dob}
+						phone={patient.phone}
+						address={patient.address}
+						showContextMenu={toggleContextMenu}
+					/>
+				))}
 			</div>
 
-			{isShowAddForm && (
+			{isShow.addForm && (
 				<div className='absolute top-0 left-0 bg-darkGrey/[0.5] w-screen h-screen'>
 					<Form
 						title='Add new Patient'
@@ -189,7 +185,7 @@ const Dashboard = () => {
 				</div>
 			)}
 
-			{isShowUpdateForm && (
+			{isShow.updateForm && (
 				<div className='absolute top-0 left-0 bg-darkGrey/[0.5] w-screen h-screen'>
 					<Form
 						title='Edit Patient'
@@ -197,13 +193,65 @@ const Dashboard = () => {
 						buttonPrimary='Update'
 						closeForm={closeForm}
 						updateList={updateList}
-						patient={patients[Number(selectedPatient)]}
+						patient={
+							patients.filter((patient) => patient.id === selectedPatient)[0]
+						}
 					/>
 				</div>
 			)}
 
+			{isShow.contextMenu && (
+				<Contextmenu
+					x={anchorPoints.x}
+					y={anchorPoints.y}
+					showUpdateForm={showUpdateForm}
+					showConfirmBox={showConfirmBox}
+					id={selectedPatient}
+				/>
+			)}
+
 			{notif.isShow && (
 				<Notification showNotif={notif.isShow} text={notif.text} />
+			)}
+
+			{isShow.confirmBox && (
+				<div className='absolute top-0 left-0 bg-darkGrey/[0.5]	 w-screen h-screen'>
+					<div className='relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-4/12 px-4 py-2'>
+						<div className='text-teal text-lg'>Confirmation</div>
+
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							fill='none'
+							viewBox='0 0 24 24'
+							strokeWidth={1.5}
+							stroke='currentColor'
+							className='w-6 h-6 absolute top-4 right-4 cursor-pointer'
+							onClick={closeForm}>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								d='M6 18L18 6M6 6l12 12'
+							/>
+						</svg>
+
+						<div className='py-8'>
+							Are you sure you want to delete this patient?
+						</div>
+
+						<div className='flex justify-center items-center gap-4 pb-2'>
+							<button
+								className='bg-red px-6 py-2 text-white border-2 border-red rounded-md'
+								onClick={() => updateList({ id: selectedPatient }, "Delete")}>
+								Delete
+							</button>
+							<button
+								className='px-6 py-2 border-2 border-lightGrey rounded-md'
+								onClick={closeForm}>
+								Cancel
+							</button>
+						</div>
+					</div>
+				</div>
 			)}
 		</div>
 	);

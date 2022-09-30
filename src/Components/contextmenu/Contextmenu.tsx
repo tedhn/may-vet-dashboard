@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC} from "react";
 
 import Delete from "@/resources/delete.png";
 import Edit from "@/resources/edit.png";
@@ -7,8 +7,8 @@ interface PropTypes {
 	x: number;
 	y: number;
 	showUpdateForm: any;
-	updateList: any;
 	id: string;
+	showConfirmBox: () => void;
 }
 
 const Contextmenu: FC<PropTypes> = ({
@@ -16,7 +16,7 @@ const Contextmenu: FC<PropTypes> = ({
 	y,
 	showUpdateForm,
 	id,
-	updateList,
+	showConfirmBox,
 }) => {
 	return (
 		<div
@@ -30,7 +30,7 @@ const Contextmenu: FC<PropTypes> = ({
 			</div>
 			<div
 				className='flex justify-start items-center gap-2 hover:bg-lightGrey cursor-pointer px-4'
-				onClick={() => updateList({ id }, "Delete")}>
+				onClick={showConfirmBox}>
 				<img src={Delete} alt='delete-image' />
 				<div>Delete</div>
 			</div>

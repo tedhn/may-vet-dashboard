@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import InputBox from "../inputbox/InputBox";
-import DropDown from "../dropdown/Dropdown";
+import React, { FC, useState } from "react";
+import { InputBox, DropDown } from "@/Components";
 import {
 	BREED_OPTIONS,
 	CITY_OPTIONS,
@@ -42,6 +41,21 @@ const Form: FC<PropTypes> = ({
 			<div className='text-lg font-medium text-teal'>{title}</div>
 			<div className='text-sm '>{subtitle}</div>
 
+			<svg
+				xmlns='http://www.w3.org/2000/svg'
+				fill='none'
+				viewBox='0 0 24 24'
+				strokeWidth={1.5}
+				stroke='currentColor'
+				className='w-6 h-6 absolute top-4 right-4 cursor-pointer'
+				onClick={closeForm}>
+				<path
+					strokeLinecap='round'
+					strokeLinejoin='round'
+					d='M6 18L18 6M6 6l12 12'
+				/>
+			</svg>
+
 			<form className='grid grid-cols-2 my-8'>
 				<div className='w-3/4 mx-auto my-2 text-start'>
 					<div>Pet Name</div>
@@ -64,7 +78,7 @@ const Form: FC<PropTypes> = ({
 								? formData.status
 								: "Please choose a status"
 						}
-						options={STATUS_OPTIONS}
+						options={STATUS_OPTIONS.map((status) => status.name)}
 					/>
 				</div>
 				<div className='w-3/4 mx-auto my-2 text-start'>
@@ -170,7 +184,7 @@ const Form: FC<PropTypes> = ({
 
 			<div className='flex items-center justify-center gap-4'>
 				<button
-					className='px-6 py-2 text-white  w-44'
+					className='px-6 py-2 text-white  w-44 rounded-md'
 					style={
 						buttonPrimary === "Save"
 							? { backgroundColor: "#54BAB9", color: "#ffffff" }
@@ -187,7 +201,7 @@ const Form: FC<PropTypes> = ({
 				</button>
 				<button
 					onClick={closeForm}
-					className='px-6 py-1 border-2 rounded-lg w-44 text-lightGrey '>
+					className='px-6 py-1 border-2  w-44 text-lightGrey rounded-md'>
 					Cancel
 				</button>
 			</div>

@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 
 import SearchImage from "@/resources/search.png";
 import AddImage from "@/resources/add.png";
-import DropDown from "../dropdown/Dropdown";
+import {DropDown} from "@/Components";
 import { BREED_OPTIONS, ROW_OPTIONS, STATUS_OPTIONS } from "@/constants";
 
 interface PropTypes {
@@ -34,7 +34,7 @@ const Banner: FC<PropTypes> = ({ showForm }) => {
 						updateFormData={setFilter}
 						formData={filter}
 						label={filter.status !== "" ? filter.status : "Status All"}
-						options={STATUS_OPTIONS}
+						options={STATUS_OPTIONS.map((status) => status.name)}
 					/>
 					<DropDown
 						dropDownName='breed'
@@ -48,7 +48,7 @@ const Banner: FC<PropTypes> = ({ showForm }) => {
 			<div className='w-48 '>
 				<div
 					onClick={showForm}
-					className='flex items-center justify-center w-full gap-2 px-4 py-2 text-sm text-center text-white rounded-lg bg-teal'>
+					className='flex items-center justify-center w-full gap-2 px-4 py-2 text-sm text-center text-white rounded-lg bg-teal cursor-pointer'>
 					<img src={AddImage} alt='Add-image' className='w-3 h-3' />
 					<div>Add new Patient</div>
 				</div>

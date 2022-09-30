@@ -20,12 +20,12 @@ const InputBox: FC<PropTypes> = ({
 	return (
 		<div className='flex items-center '>
 			<input
-				className='w-full px-2 py-1 text-sm border-2 rounded-lg border-lightGrey text-lightGrey'
+				className='w-full px-2 py-1 text-sm border-2 rounded-lg border-lightGrey text-darkGrey'
 				placeholder=''
 				type={type}
 				name={label.split("|")[0]}
 				id={label}
-				value={state.length !== 0 ? state : ""}
+				value={state.length !== 0 ? state : data}
 				onChange={(e) => {
 					setState(e.target.value);
 					updateForm({

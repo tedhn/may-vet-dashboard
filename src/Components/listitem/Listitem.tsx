@@ -1,3 +1,4 @@
+import { STATUS_OPTIONS } from "@/constants";
 import React, { FC } from "react";
 
 interface PropTypes {
@@ -10,6 +11,7 @@ interface PropTypes {
 	dob: string;
 	phone: string;
 	address: string;
+	label?: boolean;
 	showContextMenu?: (e: React.MouseEvent<HTMLDivElement>, id: string) => void;
 }
 
@@ -23,8 +25,10 @@ const Listitem: FC<PropTypes> = ({
 	dob,
 	phone,
 	address,
+	label = false,
 	showContextMenu = () => {},
 }) => {
+
 	return (
 		<div className='flex items-center justify-around gap-2'>
 			<input
@@ -35,7 +39,9 @@ const Listitem: FC<PropTypes> = ({
 			<div className='w-32 px-4 py-2'>{id}</div>
 			<div className='w-32 px-4 py-2'>{petName}</div>
 			<div className='w-32 px-4 py-2'>
-				{status.split(".")[1] === "png" ? <img src={status} /> : status}
+				{label
+					? status
+					: <img src={STATUS_OPTIONS.filter((options) => options.name === status)[0].icon} alt="status-icon" />}
 			</div>
 			<div className='w-32 px-4 py-2'>{pawrent}</div>
 			<div className='w-32 px-4 py-2'>{breed}</div>
